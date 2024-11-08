@@ -6,11 +6,13 @@
 # include <stdio.h>
 # include <X11/keysym.h>
 # include <stdlib.h>
+# include <math.h>
 
 #define WIDTH 1920
 #define HEIGHT 1080
 
 #define WHITE 0x00FFFFFF
+#define BLACK 0x00000000
 #define TITLE "title"
 
 typedef struct	s_img
@@ -28,17 +30,38 @@ typedef struct	s_vars
 	void	*win;
 	t_img	img;
 
-}				t_vars;
+}				t_vr;
 
 typedef struct 	s_point
 {
 	float 	x;
 	float	y;
-}				t_point;
+}				t_pt;
 
+typedef struct	s_joker
+{
+	t_vr var;
+	t_pt p;
+	t_pt p1;
+}				t_joker;
 
-void	putPix(t_vars *vars, t_point p, int color);
-void	putLine(t_vars *vars, t_point p1, t_point p2, int color);
-int		create_trgb(int t, int r, int g, int b);
+typedef union	u_color
+{
+	struct
+	{
+		unsigned char b;
+		unsigned char g;
+		unsigned char r;
+		unsigned char a;
+	};
+	unsigned int color;
+}				t_color;
+
+void	putPix(t_vr *vars, t_pt p, int color);
+void	putLine(t_vr *vars, t_pt p1, t_pt p2, int color);
+
+int move_points(int keycode, t_joker *jkr);
+
+void	put_grad_line(t_vr *vars, t_pt p1, t_pt p2, int clr, int toclr);
 
 #endif
