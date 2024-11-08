@@ -1,19 +1,19 @@
 #ifndef FDF_H
 # define FDF_H
 
+#include "colors.h"
+
 # include "mlx.h"
 
 # include <stdio.h>
 # include <X11/keysym.h>
 # include <stdlib.h>
 # include <math.h>
-
+# include <stdbool.h>
 #define WIDTH 1920
 #define HEIGHT 1080
-
-#define WHITE 0x00FFFFFF
-#define BLACK 0x00000000
 #define TITLE "title"
+
 
 typedef struct	s_img
 {
@@ -38,13 +38,6 @@ typedef struct 	s_point
 	float	y;
 }				t_pt;
 
-typedef struct	s_joker
-{
-	t_vr var;
-	t_pt p;
-	t_pt p1;
-}				t_joker;
-
 typedef union	u_color
 {
 	struct
@@ -55,13 +48,37 @@ typedef union	u_color
 		unsigned char a;
 	};
 	unsigned int color;
-}				t_color;
+}				t_clr;
 
-void	putPix(t_vr *vars, t_pt p, int color);
-void	putLine(t_vr *vars, t_pt p1, t_pt p2, int color);
 
-int move_points(int keycode, t_joker *jkr);
+typedef struct	s_line_vars
+{
+	t_pt	p1;
+	t_pt	p2;
+	int		dx;
+	int		dy;
+	int		err;
+	int		err2;
+	int		steps;
+	float	red;
+	float	green;
+	float	blue;
+	t_clr	b_clr;
+	t_clr	to_clr;
+	bool	grad;
+}				t_line_vars;
 
-void	put_grad_line(t_vr *vars, t_pt p1, t_pt p2, int clr, int toclr);
+typedef struct	s_joker
+{
+	t_vr var;
+	t_line_vars l_vr;
+}				t_joker;
 
+
+void	put_pix(t_vr *vars, t_pt p, int color);
+
+void	put_line(t_vr *vars, t_line_vars l_vr);
+void	put_grad_line(t_vr *vars, t_line_vars l_vr);
+
+int		move_points(int keycode, t_joker *jkr);
 #endif

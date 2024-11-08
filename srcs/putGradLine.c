@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   putLine.c                                          :+:      :+:    :+:   */
+/*   putGradLine.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tuaydin <tuaydin@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 20:22:24 by tuaydin           #+#    #+#             */
-/*   Updated: 2024/11/09 02:33:10 by tuaydin          ###   ########.fr       */
+/*   Created: 2024/11/09 01:28:24 by tuaydin           #+#    #+#             */
+/*   Updated: 2024/11/09 02:16:10 by tuaydin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,28 @@ static void	set_y_cords(t_pt *p1, t_pt *p2)
 		p1->y--;
 }
 
-void	put_line(t_vr *vars, t_line_vars l_vr)
+static void	assign_l_vars(t_line_vars *l_vr)
 {
-	if (l_vr.grad)
-	{
-		put_grad_line(vars, l_vr);
-		return ;
-	}
-	l_vr.dx = abs(l_vr.p2.x - l_vr.p1.x);
-	l_vr.dy = abs(l_vr.p2.y - l_vr.p1.y);
-	l_vr.err = l_vr.dx - l_vr.dy;
+	l_vr->dx = abs(l_vr->p2.x - l_vr->p1.x);
+	l_vr->dy = abs(l_vr->p2.y - l_vr->p1.y);
+	l_vr->err = l_vr->dx - l_vr->dy;
+	if (l_vr->dx > l_vr->dy)
+		l_vr->steps = l_vr->dx;
+	else
+		l_vr->steps = l_vr->dy;
+	l_vr->red = l_vr->b_clr.r;
+	l_vr->green = l_vr->b_clr.g;
+	l_vr->blue = l_vr->b_clr.b;
+}
+
+void	put_grad_line(t_vr *vars, t_line_vars l_vr)
+{
+	assign_l_vars(&l_vr);
 	while (1)
 	{
+		l_vr.b_clr.r = (unsigned char)l_vr.red;
+		l_vr.b_clr.g = (unsigned char)l_vr.green;
+		l_vr.b_clr.b = (unsigned char)l_vr.blue;
 		put_pix(vars, l_vr.p1, l_vr.b_clr.color);
 		if (l_vr.p1.x == l_vr.p2.x && l_vr.p1.y == l_vr.p2.y)
 			break ;
@@ -54,5 +64,8 @@ void	put_line(t_vr *vars, t_line_vars l_vr)
 			l_vr.err += l_vr.dx;
 			set_y_cords(&l_vr.p1, &l_vr.p2);
 		}
+		l_vr.red += (l_vr.to_clr.r - l_vr.b_clr.r) / (float)l_vr.steps;
+		l_vr.green += (l_vr.to_clr.g - l_vr.b_clr.g) / (float)l_vr.steps;
+		l_vr.blue += (l_vr.to_clr.b - l_vr.b_clr.b) / (float)l_vr.steps;
 	}
 }

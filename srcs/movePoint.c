@@ -4,71 +4,48 @@ int move_points(int keycode, t_joker *jkr)
 {
 	if (keycode == XK_Up)
 	{
-		putPix(&jkr->var, jkr->p, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p.y-=20;
-		putPix(&jkr->var, jkr->p, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+	 	jkr->l_vr.p1.y-=20;
 	}
 	if (keycode == XK_Down)
 	{
-		putPix(&jkr->var, jkr->p, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p.y+=20;
-
-		putPix(&jkr->var, jkr->p, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+		jkr->l_vr.p1.y+=20;
 	}
 	if (keycode == XK_Right)
 	{
-		putPix(&jkr->var, jkr->p, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p.x+=20;
-
-		putPix(&jkr->var, jkr->p, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+		jkr->l_vr.p1.x+=20;
 	}
 	if (keycode == XK_Left)
 	{
-		putPix(&jkr->var, jkr->p, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p.x-=20;
-
-		putPix(&jkr->var, jkr->p, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+	 	jkr->l_vr.p1.x-=20;
 	}
-
-
 	if (keycode == XK_w)
 	{
-		putPix(&jkr->var, jkr->p1, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p1.y-=20;
-		putPix(&jkr->var, jkr->p1, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+		jkr->l_vr.p2.y-=20;
 	}
 
 	if (keycode == XK_s)
 	{
-		putPix(&jkr->var, jkr->p1, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p1.y+=20;
-
-		putPix(&jkr->var, jkr->p1, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+		jkr->l_vr.p2.y+=20;
 	}
 
 	if (keycode == XK_d)
 	{
-		putPix(&jkr->var, jkr->p1, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p1.x+=20;
-		putPix(&jkr->var, jkr->p1, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+		jkr->l_vr.p2.x+=20;
 	}
 
 	if (keycode == XK_a)
 	{
-		putPix(&jkr->var, jkr->p1, BLACK);
-		putLine(&jkr->var, jkr->p, jkr->p1, BLACK);
-		jkr->p1.x-=20;
-		putPix(&jkr->var, jkr->p1, WHITE);
+		put_line(&jkr->var, (t_line_vars){.p1 =jkr->l_vr.p1, .p2=jkr->l_vr.p2,.b_clr =((t_clr){BLACK})});
+		jkr->l_vr.p2.x-=20;
 	}
-
 	mlx_put_image_to_window(jkr->var.mlx, jkr->var.win, jkr->var.img.ptr, 0, 0);
-	put_grad_line(&jkr->var, jkr->p, jkr->p1, WHITE, BLACK);
+	put_line(&jkr->var, jkr->l_vr);
 }
 
